@@ -155,8 +155,16 @@ jobs:
             fi
           done
 
-          tagNameRelease=${{ steps.get_new_version.outputs.new_version }}
-          echo "tag_name_release=$tagNameRelease" >> $GITHUB_OUTPUT
+          IFS=',' read -r -a rel_api_types <<< ${{ vars.RELEASE_API_TYPES }}
+          for rel_type in "${rel_api_types[@]}"; do
+            if [[ $apiType == "$rel_type" ]]; then
+              echo "es release"
+              tagNameRelease="${{ steps.get_new_version.outputs.new_version }}"
+              echo "tag_name_release=$tagNameRelease" >> $GITHUB_OUTPUT  
+              break
+            fi
+          done
+          
           echo "tagNameSnapshot: $tagNameSnapshot"
           echo "tagNameRelease: $tagNameRelease"
       
