@@ -76,7 +76,7 @@ jobs:
         id: install_openapi_changes
         if: ${{ steps.regex_match.outputs.match != '' }}
         run: |
-          curl -fsSL https://raw.githubusercontent.com/devniel93/my-openapi-changes/main/install.sh | sh
+          curl -fsSL '${{ vars.LIBRARY_INSTALL_URL }}' | sh
 
       - name: Validar si es FIX
         id: validate_is_fix
