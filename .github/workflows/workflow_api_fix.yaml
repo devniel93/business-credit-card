@@ -36,6 +36,7 @@ jobs:
         run: |
           gitRepoName=${{ steps.get_repo_name.outputs.GIT_REPO_NAME }}
           apyType=$(echo $gitRepoName | cut -d'-' -f1)
+          echo $apiType
 
       - name: Validar tipo de API
         id: validate_api_type
