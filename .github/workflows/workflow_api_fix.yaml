@@ -113,18 +113,9 @@ jobs:
 
           fi
 
-      - name: Generar PR y merge
-        id: generate_pr
-        if: ${{ steps.validate_is_fix.outputs.is_fix == 'TRUE' }}
-        run: |
-          gh pr create --title 'Merge testing' --body 'Created by Github action'
-          gh pr merge --merge
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Obtener solo la version del TAG
         id: get_only_version
-        if: ${{ steps.generate_pr.outcome == 'success' }}
+        if: ${{ steps.validate_is_fix.outputs.is_fix == 'TRUE' }}
         run: |
           latest_tag=${{ steps.get_latest_tag.outputs.tag }}
           only_version=$(echo $latest_tag | cut -d'-' -f1)
@@ -138,6 +129,26 @@ jobs:
         with:
           current_version: ${{ steps.get_only_version.outputs.only_version }}
           level: 'patch'
+
+      - name: Actualizar version en OpenAPI
+        id: update_version
+        if: ${{ steps.get_tag_name.outputs.tag_name_snapshot != null }}
+        run: |
+          versionInOpenAPI=`yq '.info.version' api/$gitRepoName.yaml`
+          echo $versionInOpenAPI
+          if [[ $versionInOpenAPI != "${{ steps.get_new_version.outputs.new_version }}" ]]; then
+            yq eval ".info.version = \"${{ steps.get_new_version.outputs.new_version }}\"" -i api/$gitRepoName.yaml
+            git commit -m "Actualizando version en OpenAPI" && git push
+          fi
+
+      - name: Generar PR y merge
+        id: generate_pr
+        if: ${{ steps.validate_is_fix.outputs.is_fix == 'TRUE' }}
+        run: |
+          gh pr create --title 'Merge testing' --body 'Created by Github action'
+          gh pr merge --merge
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generar nombres para los TAGs
         id: get_tag_name
