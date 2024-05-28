@@ -157,6 +157,8 @@ jobs:
 
           tagNameRelease=${{ steps.get_new_version.outputs.new_version }}
           echo "tag_name_release=$tagNameRelease" >> $GITHUB_OUTPUT
+          echo "tagNameSnapshot: $tagNameSnapshot"
+          echo "tagNameRelease: $tagNameRelease"
       
       - name: Generar TAG SNAPSHOT
         uses: actions-ecosystem/action-push-tag@v1
