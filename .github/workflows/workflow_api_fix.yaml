@@ -34,8 +34,10 @@ jobs:
         id: get_api_type
         if: ${{ steps.get_repo_name.outputs.GIT_REPO_NAME != '' }}
         run: |
-          gitRepoName=${{ steps.get_repo_name.outputs.GIT_REPO_NAME }}
-          apyType=$(echo $gitRepoName | cut -d'-' -f1)
+          gitRepoName="business-credit-card"
+          apiType=$(echo $gitRepoName | cut -d'-' -f1)
+          echo $apiType
+          echo "api_type=$apiType" >> $GITHUB_OUTPUT
 
       - name: Validar tipo de API
         id: validate_api_type
