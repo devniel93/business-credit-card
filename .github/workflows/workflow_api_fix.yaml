@@ -34,7 +34,7 @@ jobs:
         id: get_api_type
         if: ${{ steps.get_repo_name.outputs.GIT_REPO_NAME != '' }}
         run: |
-          gitRepoName=${{ steps.get_repo_name.outputs.GIT_REPO_NAME }}
+          gitRepoName="business-credit-card"
           apyType=$(echo $gitRepoName | cut -d'-' -f1)
           echo "apiT: $apiType"
 
