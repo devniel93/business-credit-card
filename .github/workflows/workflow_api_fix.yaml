@@ -16,6 +16,7 @@ jobs:
         id: validate_last_msg_commit
         run: |
           last_msg_commit=`git log --format=%B -n 1 HEAD | head -n 1`
+          echo $last_msg_commit
           if [[ $last_msg_commit == '${{ vars.LAST_MSG_COMMIT }}' ]]; then
             result="TRUE"
           else
@@ -28,6 +29,7 @@ jobs:
         if: ${{ steps.validate_last_msg_commit.outputs.is_valid == 'TRUE' }}
         run: |
           gitRepoName=`git ls-remote --get-url | xargs basename -s .git`
+          echo $gitRepoName
           echo "GIT_REPO_NAME=$gitRepoName" >> $GITHUB_OUTPUT
 
       - name: Obtener tipo de API
@@ -52,6 +54,7 @@ jobs:
               break
             fi
           done
+          echo $result
           echo "is_valid=$result" >> $GITHUB_OUTPUT
       
       - name: Obtener ultimo tag
@@ -73,7 +76,6 @@ jobs:
         id: install_openapi_changes
         if: ${{ steps.regex_match.outputs.match != '' }}
         run: |
-          echo "2. Si es una actualizacion de API, se instala libreria para validar tipo de actualizacion en el OpenAPI"
           curl -fsSL https://raw.githubusercontent.com/devniel93/my-openapi-changes/main/install.sh | sh
 
       - name: Validar si es FIX
