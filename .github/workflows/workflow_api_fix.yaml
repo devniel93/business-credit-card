@@ -133,13 +133,20 @@ jobs:
       - name: Actualizar version en OpenAPI
         id: update_version
         if: ${{ steps.get_new_version.outputs.new_version != null }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gitRepoName=${{ steps.get_repo_name.outputs.GIT_REPO_NAME }}
           versionInOpenAPI=`yq '.info.version' api/$gitRepoName.yaml`
           echo $versionInOpenAPI
           if [[ $versionInOpenAPI != "${{ steps.get_new_version.outputs.new_version }}" ]]; then
             yq eval ".info.version = \"${{ steps.get_new_version.outputs.new_version }}\"" -i api/$gitRepoName.yaml
-            git commit -m "Actualizando version en OpenAPI" && git push
+            
+            git config --global user.name 'github-actions[bot]'
+            git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+            git commit -m "Actualizando version en OpenAPI"
+            git push origin HEAD:${{ github.ref }}
+
           fi
 
       - name: Generar PR y merge
