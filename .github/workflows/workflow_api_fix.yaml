@@ -36,7 +36,7 @@ jobs:
         id: get_api_type
         if: ${{ steps.get_repo_name.outputs.GIT_REPO_NAME != '' }}
         run: |
-          gitRepoName="business-credit-card"
+          gitRepoName=${{ steps.get_repo_name.outputs.GIT_REPO_NAME }}
           apiType=$(echo $gitRepoName | cut -d'-' -f1)
           echo $apiType
           echo "api_type=$apiType" >> $GITHUB_OUTPUT
@@ -134,6 +134,7 @@ jobs:
         id: update_version
         if: ${{ steps.get_new_version.outputs.new_version != null }}
         run: |
+          gitRepoName=${{ steps.get_repo_name.outputs.GIT_REPO_NAME }}
           versionInOpenAPI=`yq '.info.version' api/$gitRepoName.yaml`
           echo $versionInOpenAPI
           if [[ $versionInOpenAPI != "${{ steps.get_new_version.outputs.new_version }}" ]]; then
