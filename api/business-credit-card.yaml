@@ -660,7 +660,7 @@ components:
       properties:
         street:
           type: string
-          example: 437 Lytton
+          example: 437 Lytton test
         city:
           type: string
           example: Palo Alto

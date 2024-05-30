@@ -144,7 +144,7 @@ jobs:
           echo $newVersion
 
           if [[ $versionInOpenAPI != "$newVersion" ]]; then
-            yq eval ".info.version = \"${{ steps.get_new_version.outputs.new_version }}\"" -i api/$gitRepoName.yaml
+            yq eval ".info.version = \"newVersion"" -i api/$gitRepoName.yaml
             
             git config --global user.name 'github-actions[bot]'
             git config --global user.email 'github-actions[bot]@users.noreply.github.com'
