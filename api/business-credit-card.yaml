@@ -18,7 +18,7 @@ info:
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  version: v1.0.7
+  version: 1.0.8
 x-bcp-api-id: petstore
 x-bcp-api-type: BS
 externalDocs:
@@ -660,7 +660,7 @@ components:
       properties:
         street:
           type: string
-          example: 437 Lytton
+          example: 437 Lytton test
         city:
           type: string
           example: Palo Alto
