@@ -18,7 +18,7 @@ info:
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  version: v1.0.6-PEPITO
+  version: v1.0.7
 x-bcp-api-id: petstore
 x-bcp-api-type: BS
 externalDocs:
@@ -734,7 +734,7 @@ components:
         id:
           type: integer
           format: int64
-          example: 37
+          example: 38
         name:
           type: string
           example: doggie
