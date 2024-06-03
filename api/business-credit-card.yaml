@@ -735,7 +735,7 @@ components:
           type: integer
           format: int64
           example: 3890
-          maximum: 102
+          maximum: 103
         name:
           type: string
           example: doggie
